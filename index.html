@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 	<div id="fb-root"></div>
 	<script>
 		window.fbAsyncInit = function() {
 			FB.init({
 		    appId      : '309438275740180', // App ID
-		    channelURL : 'http://www.stanford.edu/~ardakara/FriendMap/channel.html', // Channel File
+		    channelURL : 'http://localhost:8000/channel.html', // Channel File
 		    status     : true, // check login status
 		    cookie     : true, // enable cookies to allow the server to access the session
 		    oauth      : true, // enable OAuth 2.0
@@ -28,7 +29,10 @@
 </head>
 	
 <body>
-	<a href="" onclick="javascript:login()">login</a>
-	<a href="" onclick="javascript:showName()">show name</a>
+	<a href="#" onclick="login()">login</a>
+	<a href="#" onclick="getFriends()">get friends</a>
+	<div id="content">
+		
+	</div>
 </body>
 </html>
