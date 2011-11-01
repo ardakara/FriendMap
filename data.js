@@ -7,15 +7,22 @@ function login()
 {
 	FB.login(function(response) {
    if (response.authResponse) {
-     console.log('Welcome!  Fetching your information.... ');
+     alert('Welcome!  Fetching your information.... ');
      FB.api('/me', function(response) {
-       console.log('Good to see you, ' + response.name + '.');
+       alert('Good to see you, ' + response.name + '.');
        FB.logout(function(response) {
-         console.log('Logged out.');
+         alert('Logged out.');
        });
      });
    } else {
-     console.log('User cancelled login or did not fully authorize.');
+     alert('User cancelled login or did not fully authorize.');
    }
  }, {scope: 'email'});
+}
+
+function showName()
+{
+	FB.api('/me', function(response) {
+	  alert('Your name is ' + response.name);
+	});
 }
