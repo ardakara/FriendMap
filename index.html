@@ -16,6 +16,13 @@
 		    oauth      : true, // enable OAuth 2.0
 		    xfbml      : true  // parse XFBML
 		  });
+			FB.Event.subscribe('auth.login', function(response) {
+				FB.api('/me', function(response) { 
+					$("#fbbutton").remove()
+					$("#content").append(response.name);
+					mapFriends();		
+				});
+			});
 		};
 		(function(d){
 		   var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
@@ -61,10 +68,23 @@
 </head>
 	
 <body onload="initialize()">
-	<div id="content" style="position:absolute; bottom:50px; right:50px; height:100px; width:300px; background-color:#666666; border: 1px solid #CCC; z-index:9999; text-align: center;">
-		<span style="color:#FFFFFF; font-size:xx-large;">FriendMap</span><br /><br />
-		<fb:login-button onclick="mapFriends()">Come on in</fb:login-button> <br />
+
+	<div id="content" style="
+	position:absolute; 
+	bottom:50px; 
+	right:50px; 
+	height:100px; 
+	width:300px; 
+	background-color:#666666; 
+	border:1px solid #CCC; 
+	z-index:9999; 
+	text-align:center; 
+	color:#FFFFFF">	
+		<span style="font-size:xx-large;">FriendMap</span><br /><br />
+		<div id="fbbutton"><fb:login-button scope="email, friends_location, user_location">Come on in</fb:login-button><br /></div>
 	</div>
+
   <div id="map_canvas" style="width:100%; height:100%"></div>
+
 </body>
 </html>
