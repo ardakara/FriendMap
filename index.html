@@ -26,19 +26,23 @@
 	</script>
 	
 	<!-- My Javascript code -->
-	<script type="text/javascript" src="data.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/data.js" type="text/javascript"></script>
+	
+	<!-- MarkerClustererPlus Google Maps PLugin -->
+	<script src="/markerclustererplus/src/markerclusterer.js" type="text/javascript"></script>
 	
 	<!-- Google Maps -->
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<style type="text/css">
 	  html { height: 100% }
 	  body { height: 100%; margin: 0; padding: 0 }
-	  #map_canvas { height: 100% }
+	  #map_canvas { height: 100% }	
 	</style>
 	<script type="text/javascript"
 	    src="http://maps.googleapis.com/maps/api/js?sensor=true">
 	</script>
 	<script type="text/javascript">
+	var map;
 	  function initialize() {
 	    var latlng = new google.maps.LatLng(39.50, -98.35);
 	    var myOptions = {
@@ -50,7 +54,7 @@
 				panControl: false,
 				zoomControl: false
 	    };
-	    var map = new google.maps.Map(document.getElementById("map_canvas"),
+	    map = new google.maps.Map(document.getElementById("map_canvas"),
 	        myOptions);
 	  }
 	</script>
@@ -59,7 +63,7 @@
 <body onload="initialize()">
 	<div id="content" style="position:absolute; bottom:35px; left:50px; height:200px; width:410px; background-color:#FFFFFF; border: 1px solid #CCC; z-index:9999;">
 		<a href="#" onclick="login()">login</a>
-		<a href="#" onclick="getFriends()">get friends</a>
+		<a href="#" onclick="mapFriends()">map friends</a>
 	</div>
   <div id="map_canvas" style="width:100%; height:100%"></div>
 </body>
