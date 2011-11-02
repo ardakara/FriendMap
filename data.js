@@ -120,6 +120,7 @@ function putMarkers()
 
 function mapFriends()
 {
+	login();
 	populateArray();
 	putMarkers();
 }
