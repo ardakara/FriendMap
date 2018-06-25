@@ -5,8 +5,11 @@ var seenLocations = {};
 var callbackCounter = -1;
 function populateArray() 
 {
+
 	FB.api('/me/friends?fields=id,name,location,link,picture', function(response) {
 		for (var i=0, l=response.data.length; i<l; i++) {
+			console.log("got friends");
+			console.log(response.data);
 			var friend = response.data[i];
 			
 			if (!friend.location || !friend.location.id) {

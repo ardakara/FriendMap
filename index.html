@@ -1,70 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>FriendMap</title>
+
 	<!-- JQuery -->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 	
 	<!-- Facebook SDK Init -->
-	<div id="fb-root"></div>
 	<script>
 		window.fbAsyncInit = function() {
-			FB.init({
-		    appId      : '234288643297130', // App ID
-		    channelURL : 'http://localhost:8000/channel.html', // Channel File
-		    status     : true, // check login status
-		    cookie     : true, // enable cookies to allow the server to access the session
-		    oauth      : true, // enable OAuth 2.0
-		    xfbml      : true  // parse XFBML
+		  FB.init({
+		    appId            : '309438275740180',
+		    autoLogAppEvents : true,
+		    xfbml            : true,
+		    version          : 'v3.0'
 		  });
-			FB.Event.subscribe('auth.login', function(response) {
-				FB.api('/me', function(response) { 
-					$("#fbbutton").remove()
-					$("#content").append(response.name);
-					mapFriends();		
-				});
-			});
+
+		  FB.login(function(response) {
+		      if (response.authResponse) {
+		       console.log('Welcome!  Fetching your information.... ');
+		       FB.api('/me', function(response) {
+		         console.log('Good to see you, ' + response.name + '.');
+		         mapFriends();
+		       });
+		      } else {
+		       console.log('User cancelled login or did not fully authorize.');
+		      }
+		  });
 		};
-		(function(d){
-		   var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-		   js = d.createElement('script'); js.id = id; js.async = true;
-		   js.src = "http://connect.facebook.net/en_US/all.js";
-		   d.getElementsByTagName('head')[0].appendChild(js);
-		}(document));
+
+		(function(d, s, id){
+		   var js, fjs = d.getElementsByTagName(s)[0];
+		   if (d.getElementById(id)) {return;}
+		   js = d.createElement(s); js.id = id;
+		   js.src = "https://connect.facebook.net/en_US/sdk/debug.js";
+		   fjs.parentNode.insertBefore(js, fjs);
+		 }(document, 'script', 'facebook-jssdk'));
 	</script>
 	
-	<!-- My Javascript code -->
+	<!-- FriendMap -->
 	<script type="text/javascript" src="data.js" type="text/javascript"></script>
+	<style>
+      body {
+        font-family: "Verdana";
+      }
+
+      #content { 
+        position:absolute; 
+        bottom:50px; 
+        right:50px; 
+        height:100px; 
+        width:300px; 
+        background-color:#666666; 
+        border:1px solid #CCC; 
+        z-index:9999; 
+        text-align:center; 
+        color:#FFFFFF;
+    }
+    </style>   
 	
 	<!-- MarkerClustererPlus Google Maps Plugin -->
 	<script src="markerclustererplus/src/markerclusterer.js" type="text/javascript"></script>
-	
+	<!-- TODO: replace w google hosted link? -->
+
 	<!-- Google Maps -->
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	<style type="text/css">
-	  html { height: 100% }
-	  body { height: 100%; margin: 0; padding: 0; font-family: "Verdana"; }
-	  #map_canvas { height: 100% }	
-	</style>
-	<script type="text/javascript"
-	    src="http://maps.googleapis.com/maps/api/js?sensor=true">
-	</script>
-	<script type="text/javascript">
-	var map;
-	  function initialize() {
-	    var latlng = new google.maps.LatLng(18, -30);
-	    var myOptions = {
-	      zoom: 3,
-	      center: latlng,
-	      mapTypeId: google.maps.MapTypeId.ROADMAP,
-				mapTypeControl: false,
-				streetViewControl: false,
-				panControl: false,
-				zoomControl: false
-	    };
-	    map = new google.maps.Map(document.getElementById("map_canvas"),
-	        myOptions);
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+	<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+	<script>
+	function initMap() {
+	    var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: {lat: 20, lng: -30},   
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+		  mapTypeControl: false,
+		  streetViewControl: false,
+		  panControl: false,
+		  zoomControl: false
+        });
 	  }
 	</script>
+
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA57vGuMvrBRL2WeGLyZ_9_tbuZIw0KdP4&callback=initMap" type="text/javascript"></script>
 	
 	<!-- Google Analytics -->
 	<script type="text/javascript">
@@ -78,28 +107,16 @@
 	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
-
 	</script>
 </head>
 	
-<body onload="initialize()">
-
-	<div id="content" style="
-	position:absolute; 
-	bottom:50px; 
-	right:50px; 
-	height:100px; 
-	width:300px; 
-	background-color:#666666; 
-	border:1px solid #CCC; 
-	z-index:9999; 
-	text-align:center; 
-	color:#FFFFFF">	
+<body>
+	<div id="content">	
 		<span style="font-size:xx-large;">FriendMap</span><br /><br />
-		<div id="fbbutton"><fb:login-button scope="email, friends_location, user_location">Come on in</fb:login-button><br /></div>
+		<fb:login-button scope="email, friends_location, user_location">
+		</fb:login-button>
+		<br />
 	</div>
-
-  <div id="map_canvas" style="width:100%; height:100%"></div>
-
+  	<div id="map"></div>
 </body>
 </html>
